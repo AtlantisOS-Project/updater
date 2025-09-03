@@ -37,22 +37,13 @@ echo "  Codename: $LOCAL_CODENAME"
 echo "  Channel:  $LOCAL_CHANNEL"
 
 # get the releases
-# perhaps there will be a separation here between the main update.zip and update.conf.
-info=$(get_latest_release "$REPO" "$INCLUDE_PRERELEASE" ".*update\\.zip$") || exit 0
-IFS="|" read -r TAG ZIP_URL <<< "$info"
-ZIP_FILE="$WORKDIR/update.zip"
+# get only the update.conf first
+info=$(get_release_asset "$REPO" "$INCLUDE_PRERELEASE" "update.conf") || exit 0
+IFS="|" read -r TAG CONF_URL <<< "$info"
+CONF_FILE="$WORKDIR/update.conf"
 
-echo "[Updater] Release found: $TAG"
-download_file "$ZIP_URL" "$ZIP_FILE"
-
-# unzip the zip files
-unpack_zip "$ZIP_FILE" "$WORKDIR"
-
-# check if update.conf and sha256sum are in the update
-if [[ ! -f "$WORKDIR/update.conf" || ! -f "$WORKDIR/SHA256SUMS" ]]; then
-    echo "[ERROR] update.conf or SHA256SUMS is missing from the archive!"
-    exit 1
-fi
+echo "[Updater] Found release: $TAG"
+download_file "$CONF_URL" "$CONF_FILE"
 
 # load the configs from the update.conf
 load_conf "$WORKDIR/update.conf"
@@ -87,12 +78,23 @@ else
 	exit 0
 fi
 
-echo "[Updater] Found $UPDATE_TYPE available!"
-read -rp "Would you like to continue? [y/N] " yn
+# ask user
+read -rp "Would you like to download and install the update? [y/N] " yn
 if [[ "$yn" != "y" && "$yn" != "Y" ]]; then
     echo "[WARNING] Cancelled!"
     exit 0
 fi
+
+# now download the full update.zip
+info=$(get_latest_release "$REPO" "$INCLUDE_PRERELEASE" ".*update\\.zip$") || exit 0
+IFS="|" read -r TAG ZIP_URL <<< "$info"
+ZIP_FILE="$WORKDIR/update.zip"
+
+echo "[Updater] Downloading update.zip..."
+download_file "$ZIP_URL" "$ZIP_FILE"
+
+# continue with unzip, checksum, etc.
+unpack_zip "$ZIP_FILE" "$WORKDIR"
 
 # verify the checksums
 verify_checksums "$WORKDIR"
