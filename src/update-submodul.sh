@@ -14,7 +14,7 @@ if output=$(git diff-index HEAD --name-only 2>&1); then
     	git status
     	sleep 4
     	git commit -m "Update submodules" -m "($(date +'%Y-%m-%d %H:%M:%S'))"
-    	git origin main
+    	git push origin main
     	echo "[INFO] Submodule changes committed."
 	else
     	echo "[INFO] No updates available."
