@@ -107,6 +107,8 @@ target/
 *.seed
 *.pid.lock
 
+tmp-upstream
+
 # extra for the updater
 # for usage of the ui base
 # ignore test dir
