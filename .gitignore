@@ -107,3 +107,18 @@ target/
 *.seed
 *.pid.lock
 
+# extra for the updater
+# for usage of the ui base
+# ignore test dir
+src/test/
+
+# ignore everything in the deb 
+#deb/config/
+#deb/*.conf
+#deb/*.md
+#deb/*          
+# whitelist the build scripts 
+#!deb/build-debian-debuild.sh
+#!deb/generate-manpages.sh
+#!deb/generate-desktop.sh
+

@@ -1,6 +1,3 @@
 [submodule "src/modules/uibase"]
 	path = src/modules/uibase
 	url = git@github.com:AtlantisOS-Project/atlantis-UI-base.git
-[submodule "src/atlantis-UI-base"]
-	path = src/atlantis-UI-base
-	url = git@github.com:AtlantisOS-Project/atlantis-UI-base.git
