@@ -9,12 +9,19 @@
 #
 # automatic update of git subtrees based on subtrees.conf
 # Use for init:
-# Example UI base
 # git clone git@github.com:AtlantisOS-Project/atlantis-UI-base.git tmp-upstream
+#
+# src only:
 # cd tmp-upstream
 # git subtree split --prefix=src -b src-only
 # cd ../
 # git subtree add --prefix=modules/ ./tmp-upstream src-only --squash
+#
+# deb only:
+# cd tmp-upstream
+# git subtree split --prefix=deb -b deb-only
+# cd ../
+# git subtree add --prefix=deb ./tmp-upstream deb-only --squash
 
 set -euo pipefail
 cd "$(dirname "$0")" || exit 1
