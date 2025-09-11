@@ -97,14 +97,20 @@ done < "$CONFIG_FILE"
 
 # adding everything
 git add .
+git status
 
 # commit changes
 if output=$(git diff-index HEAD --name-only 2>&1); then
     if [[ -n "$output" ]]; then
     	echo "[INFO] Committing subtree updates..."
-   		# git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
-    	# git push origin main
-    	echo "[INFO] Subtree changes committed and pushed."
+    	read -rp "[?] Should the changes be committed? [y/N] " answer
+		if [[ "$answer" =~ ^[jJyY]$ ]]; then
+    		git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
+    		git push origin main
+    		echo "[INFO] Subtree changes committed and pushed."
+		else
+    		echo "[INFO] Commiting aborted."
+		fi
 	else
     	echo "[INFO] No updates available."
 	fi
