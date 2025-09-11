@@ -107,6 +107,9 @@ target/
 *.seed
 *.pid.lock
 
+.gitignore
+
+# ignore tmp-upstream
 tmp-upstream
 
 # extra for the updater
