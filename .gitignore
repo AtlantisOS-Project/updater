@@ -116,12 +116,12 @@ tmp-upstream
 src/test/
 
 # ignore everything in the deb 
-#deb/config/
-#deb/*.conf
-#deb/*.md
-#deb/*          
+deb/config/
+deb/*.conf
+deb/*.md
+deb/*          
 # whitelist the build scripts 
-#!deb/build-debian-debuild.sh
-#!deb/generate-manpages.sh
-#!deb/generate-desktop.sh
+!deb/build-debian-debuild.sh
+!deb/generate-manpages.sh
+!deb/generate-desktop.sh
 
