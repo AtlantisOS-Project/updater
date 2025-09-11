@@ -8,16 +8,24 @@
 # License: GNU GENERAL PUBLIC LICENSE Version 3
 #
 # automatic update of git subtrees based on subtrees.conf
+# Use for init:
+# Example UI base
+# git clone git@github.com:AtlantisOS-Project/atlantis-UI-base.git tmp-upstream
+# cd tmp-upstream
+# git subtree split --prefix=src -b src-only
+# cd ../
+# git subtree add --prefix=modules/ ./tmp-upstream src-only --squash
 
 set -euo pipefail
 cd "$(dirname "$0")" || exit 1
 
 CONF_FILE="subtrees.conf"
 
-echo "[INFO] Updating all subtrees..."
+echo "[INFO] Rebase local main onto origin/main..."
+git pull --rebase origin main
 
+echo "[INFO] Updating all subtrees..."
 while IFS= read -r line; do
-    # Abschnitt starten
     if [[ $line =~ ^\[subtree\ \"(.+)\"\]$ ]]; then
         name="${BASH_REMATCH[1]}"
         prefix=""
@@ -29,28 +37,24 @@ while IFS= read -r line; do
         repo="${BASH_REMATCH[1]}"
     elif [[ $line =~ ^branch\ *=\ *(.*)$ ]]; then
         branch="${BASH_REMATCH[1]}"
-        # if everything there, start the update
         echo "[INFO] Updating subtree: $name"
-        git subtree pull --prefix="$prefix" "$repo" "$branch" --squash || {
+        if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
             echo "[WARN] Failed to update $name"
-        }
+        fi
     fi
 done < "$CONF_FILE"
 
-# add everything
+# adding everything
 git add .
 
-# Commit nur, wenn sich was geändert hat
-
+# commit changes
 if output=$(git diff-index HEAD --name-only 2>&1); then
     if [[ -n "$output" ]]; then
-	    git status
-	    sleep 4
-	    git commit -am "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
-	    sleep 2
-	    git push origin main
-	    echo "[INFO] Subtree changes committed."
+    	echo "[INFO] Committing subtree updates..."
+   		git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
+    	git push origin main
+    	echo "[INFO] Subtree changes committed and pushed."
 	else
-	    echo "[INFO] No updates available."
+    	echo "[INFO] No updates available."
 	fi
 fi
