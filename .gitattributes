@@ -1,0 +1,6 @@
+# --------------------------------------
+# Always keep local configuration files
+# subtree:
+# deb
+# --------------------------------------
+deb/config/*             merge=ours
