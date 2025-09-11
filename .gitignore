@@ -107,12 +107,10 @@ target/
 *.seed
 *.pid.lock
 
-.gitignore
-
-# ignore tmp-upstream
+# extra for the updater
+# ignore tmp
 tmp-upstream
 
-# extra for the updater
 # for usage of the ui base
 # ignore test dir
 src/test/

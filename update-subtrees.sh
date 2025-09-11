@@ -22,7 +22,7 @@ cd "$(dirname "$0")" || exit 1
 CONF_FILE="subtrees.conf"
 
 echo "[INFO] Rebase local main onto origin/main..."
-git pull --rebase origin main
+git pull origin main
 
 echo "[INFO] Updating all subtrees..."
 while IFS= read -r line; do
