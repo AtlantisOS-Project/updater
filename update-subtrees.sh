@@ -70,6 +70,9 @@ done < "$CONF_FILE"
 # switch to root
 cd ../
 
+# degfine new config file
+CONFIG_FILE="./subtrees.conf"
+
 # update subtrees in the main repo
 echo "[INFO] Updating all subtrees..."
 while IFS= read -r line; do
@@ -86,11 +89,11 @@ while IFS= read -r line; do
         branch="${BASH_REMATCH[1]}"
 
         echo "[INFO] Pulling subtree: $name"
-        #if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
-        #    echo "[WARN] Failed to update $name"
-        #fi
+        if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
+        	echo "[WARN] Failed to update $name"
+        fi
     fi
-done < "$CONF_FILE"
+done < "$CONFIG_FILE"
 
 # adding everything
 git add .
@@ -99,7 +102,7 @@ git add .
 if output=$(git diff-index HEAD --name-only 2>&1); then
     if [[ -n "$output" ]]; then
     	echo "[INFO] Committing subtree updates..."
-   		#git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
+   		# git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
     	# git push origin main
     	echo "[INFO] Subtree changes committed and pushed."
 	else
