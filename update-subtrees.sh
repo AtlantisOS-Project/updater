@@ -60,9 +60,10 @@ while IFS= read -r line; do
         # create split branch
         echo "[INFO] Creating split branch for $name ($prefix)"
         if git show-ref --verify --quiet "refs/heads/$branch"; then
-            git branch -D "$branch"
+            echo "[INFO] Branch exsists"
+        else
+        	git subtree split --prefix="$prefix" -b "$branch"
         fi
-        git subtree split --prefix="$prefix" -b "$branch"
     fi
 done < "$CONF_FILE"
 
