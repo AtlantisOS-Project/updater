@@ -41,7 +41,6 @@ cd "$UPSTREAM_DIR"
 git fetch origin
 git checkout main
 git pull origin main
-cd ..
 
 # recreate splitted branches
 echo "[INFO] Generating split branches..."
@@ -65,9 +64,11 @@ while IFS= read -r line; do
             git branch -D "$branch"
         fi
         git subtree split --prefix="$prefix" -b "$branch"
-        cd ..
     fi
 done < "$CONF_FILE"
+
+# switch to root
+cd ../
 
 # update subtrees in the main repo
 echo "[INFO] Updating all subtrees..."
