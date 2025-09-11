@@ -114,3 +114,5 @@ tmp-upstream
 # for usage of the ui base
 # ignore test dir
 src/test/
+src/deb/
+src/build/

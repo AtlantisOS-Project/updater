@@ -1,9 +1,0 @@
-#
-# first run:
-# git config merge.ours.driver true
-# --------------------------------------
-# Always keep local configuration files
-# subtree:
-# deb
-# --------------------------------------
-deb/config/*             merge=ours
