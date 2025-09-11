@@ -24,13 +24,52 @@
 # git subtree add --prefix=deb ./tmp-upstream deb-only --squash
 
 set -euo pipefail
+
 cd "$(dirname "$0")" || exit 1
 
 CONF_FILE="subtrees.conf"
+UPSTREAM_DIR="./tmp-upstream"
 
-echo "[INFO] Rebase local main onto origin/main..."
+# update upstream
+echo "[INFO] Updating upstream repository..."
+if [[ ! -d "$UPSTREAM_DIR/.git" ]]; then
+    echo "[ERROR] Upstream repo not found in $UPSTREAM_DIR"
+    exit 1
+fi
+
+cd "$UPSTREAM_DIR"
+git fetch origin
+git checkout main
 git pull origin main
+cd ..
 
+# recreate splitted branches
+echo "[INFO] Generating split branches..."
+while IFS= read -r line; do
+    if [[ $line =~ ^\[subtree\ \"(.+)\"\]$ ]]; then
+        name="${BASH_REMATCH[1]}"
+        prefix=""
+        repo=""
+        branch=""
+    elif [[ $line =~ ^prefix\ *=\ *(.*)$ ]]; then
+        prefix="${BASH_REMATCH[1]}"
+    elif [[ $line =~ ^repo\ *=\ *(.*)$ ]]; then
+        repo="${BASH_REMATCH[1]}"
+    elif [[ $line =~ ^branch\ *=\ *(.*)$ ]]; then
+        branch="${BASH_REMATCH[1]}"
+
+        # Split-Branch erzeugen
+        echo "[INFO] Creating split branch for $name ($prefix)"
+        cd "$UPSTREAM_DIR"
+        if git show-ref --verify --quiet "refs/heads/$branch"; then
+            git branch -D "$branch"
+        fi
+        git subtree split --prefix="$prefix" -b "$branch"
+        cd ..
+    fi
+done < "$CONF_FILE"
+
+# update subtrees in the main repo
 echo "[INFO] Updating all subtrees..."
 while IFS= read -r line; do
     if [[ $line =~ ^\[subtree\ \"(.+)\"\]$ ]]; then
@@ -44,7 +83,8 @@ while IFS= read -r line; do
         repo="${BASH_REMATCH[1]}"
     elif [[ $line =~ ^branch\ *=\ *(.*)$ ]]; then
         branch="${BASH_REMATCH[1]}"
-        echo "[INFO] Updating subtree: $name"
+
+        echo "[INFO] Pulling subtree: $name"
         if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
             echo "[WARN] Failed to update $name"
         fi
@@ -58,8 +98,8 @@ git add .
 if output=$(git diff-index HEAD --name-only 2>&1); then
     if [[ -n "$output" ]]; then
     	echo "[INFO] Committing subtree updates..."
-   		git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
-    	git push origin main
+   		#git commit -m "Update subtrees ($(date +'%Y-%m-%d %H:%M:%S'))"
+    	# git push origin main
     	echo "[INFO] Subtree changes committed and pushed."
 	else
     	echo "[INFO] No updates available."
