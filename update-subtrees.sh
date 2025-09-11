@@ -27,7 +27,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")" || exit 1
 
-CONF_FILE="subtrees.conf"
+CONF_FILE="../subtrees.conf"
 UPSTREAM_DIR="./tmp-upstream"
 
 # update upstream
@@ -57,9 +57,8 @@ while IFS= read -r line; do
     elif [[ $line =~ ^branch\ *=\ *(.*)$ ]]; then
         branch="${BASH_REMATCH[1]}"
 
-        # Split-Branch erzeugen
+        # create split branch
         echo "[INFO] Creating split branch for $name ($prefix)"
-        cd "$UPSTREAM_DIR"
         if git show-ref --verify --quiet "refs/heads/$branch"; then
             git branch -D "$branch"
         fi
@@ -86,9 +85,9 @@ while IFS= read -r line; do
         branch="${BASH_REMATCH[1]}"
 
         echo "[INFO] Pulling subtree: $name"
-        if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
-            echo "[WARN] Failed to update $name"
-        fi
+        #if ! git subtree pull --prefix="$prefix" "$repo" "$branch" --squash; then
+        #    echo "[WARN] Failed to update $name"
+        #fi
     fi
 done < "$CONF_FILE"
 
