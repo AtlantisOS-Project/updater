@@ -1,5 +1,13 @@
 #!/bin/bash
-# github.sh
+#
+# /usr/share/atlantis-updater/lib/base/github.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that get the url from the release from the github api and download the update
 
 # get a specific asset (e.g. update.conf) from the latest release
 get_release_asset() {

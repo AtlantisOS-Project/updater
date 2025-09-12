@@ -1,5 +1,13 @@
 #!/bin/bash
-# checksum.sh
+#
+# /usr/share/atlantis-updater/lib/base/checksum.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that get the checksum
 
 # check if the checksum is correct
 checksum_ok() {

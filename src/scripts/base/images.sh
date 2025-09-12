@@ -1,5 +1,13 @@
 #!/bin/bash
-# images.sh
+#
+# /usr/share/atlantis-updater/lib/base/images.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that unpack the images 
 
 # function that unzip the main update file
 unpack_zip() {

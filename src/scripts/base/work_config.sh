@@ -1,5 +1,13 @@
 #!/bin/bash
-# config.sh
+#
+# /usr/share/atlantis-updater/lib/base/work_config.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that save and load configs
 
 # function that load the .conf files
 load_conf() {

@@ -1,5 +1,13 @@
 #!/bin/bash
-# slots.sh
+#
+# /usr/share/atlantis-updater/lib/base/slots.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that set a new active slot
 
 # function that get the inactive slot
 get_inactive_slot() {

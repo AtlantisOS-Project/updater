@@ -1,5 +1,13 @@
 #!/bin/bash
-# installer.sh
+#
+# /usr/share/atlantis-updater/lib/base/installer.sh
+#
+# (C) Copyright 2025 AtlantisOS Project
+# by @NachtsternBuild
+#
+# License: GNU GENERAL PUBLIC LICENSE Version 3
+#
+# an base script that install the bootloader.img, system.img, desktop.img
 
 # function that install the bootloader.img
 install_bootloader() {
@@ -40,7 +48,7 @@ install_bootloader() {
     fi
 }
 
-
+# TODO: optimize installation for the installer 
 # function that install the other images
 install_images() {
     local system_img="$1"
