@@ -52,4 +52,6 @@ check_update() {
     echo "  Codename: $REMOTE_CODENAME"
     echo "  Channel: $REMOTE_CHANNEL"
     echo "  Notes: $REMOTE_DESCRIPTION"
+    
+    save_remote_conf "$REMOTE_CONF" "$UPDATE_TYPE" "$REMOTE_VERSION" "$REMOTE_CODENAME" "$REMOTE_CHANNEL" "$REMOTE_CHANNEL"
 }

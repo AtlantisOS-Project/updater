@@ -41,6 +41,7 @@ MODE="full" # default mode
 
 # config files
 LOCAL_CONF="$ATLANTIS_DIR/updater/local-release.conf"
+REMOTE_CONF="$ATLANTIS_DIR/updater/update-remote.conf"
 SYSTEM_CONF="$ATLANTIS_DIR/system/atlantis.conf"
 BOOT_CONF="$BOOT_DIR/atlantis.conf"
 

@@ -31,3 +31,20 @@ save_conf() {
     done
 }
 
+# function that save the remotet data for the UI updater
+save_remote_conf() {
+    local conf_file="$1"
+    local update_typ="$2"
+    local version="$3"
+    local codename="$4"
+    local channel="$5"
+    local description="$6"
+    cat > "$conf_file" <<EOF
+UPDATE_TYPE="$update_typ"
+REMOTE_VERSION="$version"
+REMOTE_CODENAME="$codename"
+REMOTE_CHANNEL="$channel"
+REMOTE_DESCRIPTION="$description"
+EOF
+    echo "[Updater] Config gespeichert nach $conf_file"
+}
