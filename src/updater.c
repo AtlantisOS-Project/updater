@@ -23,6 +23,8 @@
 
 // define the local domian
 const char *LOCALE_DOMAIN = "atl-updater";
+// define the default file filters
+const char *DEFAULT_FILTER = "";
 
 // main function
 int main(int argc, char *argv[]) 
